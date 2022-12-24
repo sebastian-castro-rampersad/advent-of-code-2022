@@ -1,19 +1,22 @@
+RANKING_SIZE = 3
+
+def insert_in_ranking(ranking, actual_calories):
+    for i in reversed(range(len(ranking))):
+        if i == 0 and actual_calories > ranking[i]:
+            return [actual_calories] + ranking[:-1]
+        elif actual_calories > ranking[i] and actual_calories < ranking[i-1]:
+            return ranking[:i] + [actual_calories] + ranking[i:-1]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+
 with open('input.txt') as input:
     line = input.readline()
-    top_three = [0] * 3
+    ranking = [0] * RANKING_SIZE
     actual_calories = 0
 
     while line:
-        if line == '\n' and actual_calories > top_three[2]:
-            if actual_calories > top_three[2] and actual_calories < top_three[1]:
-                top_three[2] = actual_calories
-            elif actual_calories > top_three[1] and actual_calories < top_three[0]:
-                top_three[2] = top_three[1]
-                top_three[1] = actual_calories
-            elif actual_calories > top_three[0]:
-                top_three[2] = top_three[1]
-                top_three[1] = top_three[0]
-                top_three[0] = actual_calories
+        if line == '\n' and actual_calories > ranking[RANKING_SIZE-1]:
+            ranking = insert_in_ranking(ranking, actual_calories)
             actual_calories = 0
         elif line == '\n':
             actual_calories = 0
@@ -21,4 +24,4 @@ with open('input.txt') as input:
             actual_calories += int(line)
         line = input.readline()
 
-print(sum(top_three))
+print(sum(ranking))
