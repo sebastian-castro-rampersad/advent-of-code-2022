@@ -1,4 +1,4 @@
-with open('input-1.txt') as input:
+with open('input.txt') as input:
     line = input.readline()
     most_calories = 0
     actual_calories = 0
